@@ -1,50 +1,82 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 const Navbar = () => {
+  // State untuk mengontrol buka/tutup menu HP
+  const [isOpen, setIsOpen] = useState(false);
+
+  // Daftar menu agar lebih rapi
+  const menuItems = [
+    { name: 'Beranda', href: '#beranda' },
+    { name: 'Tentang', href: '#tentang' },
+    { name: 'Keahlian', href: '#keahlian' },
+    { name: 'Proyek', href: '#proyek' },
+    { name: 'Pengalaman', href: '#pengalaman' },
+    { name: 'Kontak', href: '#kontak' },
+  ];
+
   return (
-    <nav className="fixed top-0 left-0 w-full bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 z-50 transition-colors duration-300">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between">
-        
-        {/* Logo dengan Focus State */}
-        <a 
-          href="#beranda" 
-          className="text-2xl font-bold text-teal-600 dark:text-teal-400 tracking-wider rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-900"
-        >
-          LANGGENG PRAYITNO<span className="text-slate-900 dark:text-white">.</span>
-        </a>
+    <nav className="fixed w-full z-50 bg-white/90 dark:bg-slate-900/90 backdrop-blur-sm border-b border-slate-200 dark:border-slate-800 transition-colors duration-300">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6">
+        <div className="flex justify-between items-center h-16">
+          
+          {/* Logo */}
+          <div className="flex-shrink-0">
+            <a href="#beranda" className="text-2xl font-bold text-teal-600 dark:text-teal-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 rounded px-1">
+              Langgeng Prayitno.
+            </a>
+          </div>
 
-        {/* Menu Navigasi */}
-        <ul className="hidden md:flex items-center gap-8 text-sm font-medium text-slate-600 dark:text-slate-300">
-          {['beranda', 'tentang', 'keahlian', 'proyek', 'pengalaman'].map((item) => (
-            <li key={item}>
-              <a 
-                href={`#${item}`} 
-                className="hover:text-teal-600 dark:hover:text-teal-400 capitalize rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-4 dark:focus-visible:ring-offset-slate-900 transition-colors"
+          {/* Desktop Menu (Sembunyi di HP, Tampil di Tablet/Desktop) */}
+          <div className="hidden md:flex space-x-8">
+            {menuItems.map((item, index) => (
+              <a
+                key={index}
+                href={item.href}
+                className="text-slate-600 dark:text-slate-300 hover:text-teal-600 dark:hover:text-teal-400 font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 rounded px-2 py-1"
               >
-                {item}
+                {item.name}
               </a>
-            </li>
-          ))}
-        </ul>
+            ))}
+          </div>
 
-        {/* Tombol Kontak */}
-        <a 
-          href="#kontak" 
-          className="hidden md:flex px-6 py-2.5 bg-teal-500 hover:bg-teal-600 dark:hover:bg-teal-400 text-white dark:text-slate-900 text-sm font-bold rounded-lg transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-900"
-        >
-          Kontak
-        </a>
-
-        {/* Ikon Hamburger untuk HP (Lebar < 768px) */}
-        <button 
-          className="md:hidden text-slate-600 dark:text-slate-300 hover:text-teal-600 dark:hover:text-teal-400 p-2 rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500"
-          aria-label="Buka menu navigasi"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-6 h-6">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M3 12h18M3 6h18M3 18h18" />
-          </svg>
-        </button>
+          {/* Tombol Hamburger Menu (Hanya Tampil di HP) */}
+          <div className="md:hidden flex items-center">
+            <button
+              onClick={() => setIsOpen(!isOpen)} // Aksi untuk mengubah state buka/tutup
+              className="text-slate-600 dark:text-slate-300 hover:text-teal-600 dark:hover:text-teal-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 rounded p-2"
+              aria-label="Toggle menu"
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                {isOpen ? (
+                  // Ikon Silang (X) jika menu sedang terbuka
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                ) : (
+                  // Ikon Garis 3 jika menu tertutup
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                )}
+              </svg>
+            </button>
+          </div>
+        </div>
       </div>
+
+      {/* Mobile Menu Dropdown (Muncul ke bawah di HP) */}
+      {isOpen && (
+        <div className="md:hidden bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 shadow-lg">
+          <div className="px-4 pt-2 pb-4 space-y-2">
+            {menuItems.map((item, index) => (
+              <a
+                key={index}
+                href={item.href}
+                onClick={() => setIsOpen(false)} // Otomatis tutup menu saat link diklik
+                className="block px-3 py-2 rounded-md text-base font-medium text-slate-700 dark:text-slate-200 hover:text-teal-600 dark:hover:text-teal-400 hover:bg-slate-50 dark:hover:bg-slate-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500"
+              >
+                {item.name}
+              </a>
+            ))}
+          </div>
+        </div>
+      )}
     </nav>
   );
 };
