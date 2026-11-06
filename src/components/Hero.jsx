@@ -1,7 +1,10 @@
+// File: src/components/Hero.jsx
 import React from 'react';
-import profilImg from '../assets/aku1.png'; 
+import profilImg from '../assets/aku1.png';
 
 const Hero = () => {
+  const cvUrl = `${import.meta.env.BASE_URL}CV_Langgeng_Prayitno_ATS.pdf`;
+
   return (
     <section id="beranda" className="relative pt-32 pb-20 md:pt-40 md:pb-28 flex items-center min-h-screen overflow-hidden transition-colors duration-300">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 grid grid-cols-1 md:grid-cols-2 gap-12 items-center relative z-10">
@@ -17,8 +20,10 @@ const Hero = () => {
           
           <div className="flex flex-wrap items-center justify-center md:justify-start gap-4">
             <a 
-              href="/CV_Langgeng_Prayitno_ATS.pdf" 
-              download
+              href={cvUrl}
+              download="CV_Langgeng_Prayitno_ATS.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
               className="px-6 py-3 bg-teal-600 dark:bg-teal-500 hover:bg-teal-700 dark:hover:bg-teal-400 text-white dark:text-slate-900 font-bold rounded-lg transition-all duration-300 transform hover:-translate-y-1 hover:shadow-lg dark:hover:shadow-[0_0_15px_rgba(20,184,166,0.4)] focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-900"
             >
               Unduh CV
